@@ -55,7 +55,7 @@ var (
 	generateMeshID             = flag.Bool("generate-mesh-id", false, "When enabled, the CSM MeshID is generated. If config-mesh flag is specified, this flag would be ignored. Location and Cluster Name would be retrieved from the metadata server unless specified via gke-location and gke-cluster-name flags respectively.")
 	includeAllowedGrpcServices = flag.Bool("include-allowed-grpc-services-experimental", false, "When enabled, generates `allowed_grpc_services` map that includes current xDS Server URI. This flag is EXPERIMENTAL and may be changed or removed in a later release.")
 	isTrustedXDSServer         = flag.Bool("is-trusted-xds-server-experimental", false, "Whether to include the server feature trusted_xds_server for TD. This flag is EXPERIMENTAL and may be changed or removed in a later release.")
-	xdsServerRegion            = flag.String("xds-server-region-experimental", "", "The Cloud region (e.g. 'us-central1') of the xDS server to be used for regional setup.")
+	xdsServerRegion            = flag.String("xds-server-region", "", "The Cloud region (e.g. 'us-central1') of the xDS server to be used for regional setup.")
 )
 
 const (
@@ -78,6 +78,8 @@ func main() {
 		"alias of generate-mesh-id. This flag is EXPERIMENTAL and will be removed in a later release")
 	flag.Var(flag.Lookup("config-mesh").Value, "config-mesh-experimental",
 		"alias of config-mesh. This flag is EXPERIMENTAL and will be removed in a later release")
+	flag.Var(flag.Lookup("xds-server-region").Value, "xds-server-region-experimental",
+		"alias of xds-server-region. This flag is EXPERIMENTAL and will be removed in a later release")
 
 	flag.Parse()
 
