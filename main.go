@@ -350,8 +350,12 @@ func generate(in configInput) ([]byte, error) {
 	if in.xdsServerRegion != "" {
 		regionalTdAuthority := fmt.Sprintf("traffic-director.%s.xds.googleapis.com", in.xdsServerRegion)
 		regionalXdsServer := xdsServer
-		regionalXdsServer.ServerURI = fmt.Sprintf("trafficdirector.%s.rep.googleapis.com:443", in.xdsServerRegion)
-
+		if in.xdsServerURI != *xdsServerURI {
+  			regionalXdsServer.ServerURI = in.xdsServerURI
+  		} else {
+  			regionalXdsServer.ServerURI = fmt.Sprintf("trafficdirector.%s.rep.googleapis.com:443", in.xdsServerRegion)
+  		}
+  
 		c.Authorities[regionalTdAuthority] = Authority{
 			XDSServers: []server{regionalXdsServer},
 		        ClientListenerResourceNameTemplate: fmt.Sprintf("xdstp://%s/envoy.config.listener.v3.Listener/%d/%s/%%s", regionalTdAuthority, in.gcpProjectNumber, networkIdentifier),
